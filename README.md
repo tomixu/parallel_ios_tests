@@ -13,8 +13,8 @@ Finally we can execute our tests on different devices (iPhone Simulator, iPad Si
 same time. It might not be obvious how to do that, it also is not possible by just using
 `xcodebuild`. Instead we need to use [xctool's](https://github.com/facebook/xctool) feature of
 separating the `build-tests` phase from the `run-tests` phase. Due to some internal implementation
-details of `xctool` it's mandatory to path the `-derivedDataPath` option to both phases. Right
-now it's also required to use the current `master` of `xctool`.
+details of `xctool` it's mandatory to pass the `-derivedDataPath` option to both phases. It also
+needs to be an absolute path! Right now it's also required to use the current `master` of `xctool`.
 
 ## Start simple
 
