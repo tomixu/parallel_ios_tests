@@ -2,7 +2,7 @@
 
 ## tl;dr
 
-* Example project and Ruby script to demonstrate how to run iOS tests in parallel
+* Example project and Rake task to demonstrate how to run iOS tests in parallel
   on multiple simulators at the same time
 * Only requirements are Ruby, some gems and [xctool](https://github.com/facebook/xctool)
 * No multiple user accounts are required, neither is any type of virtualization
