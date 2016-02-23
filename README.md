@@ -4,7 +4,7 @@
 
 * Example project and Rake task to demonstrate how to run iOS tests in parallel
   on multiple simulators at the same time
-* Only requirements are Ruby, some gems and [xctool](https://github.com/facebook/xctool)
+* Only requirements are Ruby, some [gems](https://github.com/plu/simctl) and [xctool](https://github.com/facebook/xctool)
 * No multiple user accounts are required, neither is any type of virtualization
 * `git clone --recursive git@github.com:plu/parallel_ios_tests.git`
 * `cd parallel_ios_tests && bundle && rake`
