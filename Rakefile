@@ -34,6 +34,8 @@ task :test do
         system "#{xctool} run-tests -destination 'id=#{device.udid}' -reporter plain:'#{test_log}' -reporter junit:'#{junit_xml}'"
         Thread.current[:result] = $?
         device.kill!
+        device.wait! {|d| d.state == :shutdown}
+        device.delete!
       end
     end
 
