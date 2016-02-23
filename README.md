@@ -1,5 +1,7 @@
 # Running iOS tests on multiple simulators in parallel
 
+[![Build Status](https://travis-ci.org/plu/parallel_ios_tests.svg?branch=master)](https://travis-ci.org/plu/parallel_ios_tests)
+
 ## tl;dr
 
 * Example project and Rake task to demonstrate how to run iOS tests in parallel
