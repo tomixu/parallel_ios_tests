@@ -229,7 +229,12 @@ end
 And then run the rake task:
 
 ```console
-rake 'test['SampleAppTests:SampleAppTests/testRows']'
+rake test[SampleAppTests:SampleAppTests/testRows]
+```
+
+in zsh:
+```console
+rake 'test[SampleAppTests:SampleAppTests/testRows]'
 ```
 
 ## Integrating into Jenkins
