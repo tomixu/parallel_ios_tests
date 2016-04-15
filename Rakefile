@@ -16,8 +16,8 @@ task :test do
 
     # Destroy and create devices for given name, type and os version
     devices = [
-      SimCtl.reset_device('SampleApp iPhone 9.2', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.2')),
-      SimCtl.reset_device('SampleApp iPad 9.2',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.2')),
+      SimCtl.reset_device('SampleApp iPhone 9.3', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.3')),
+      SimCtl.reset_device('SampleApp iPad 9.3',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.3')),
     ]
     devices.each { |device| device.launch! }
 
