@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
 gem 'rake'
-gem 'simctl'
+gem 'simctl', github: 'plu/simctl'
