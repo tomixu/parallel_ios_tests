@@ -67,7 +67,7 @@ Total time: 85.675036s
 
 Using the [simctl](https://github.com/plu/simctl) gem it's easy to run them on multiple devices (sequentially, so far):
 
-```objc
+```ruby
 task :test do
   time = Benchmark.measure do
     xctool = File.join(Dir.pwd, 'xctool', 'xctool.sh')
@@ -101,7 +101,7 @@ Total time: 188.726965s
 
 The `simctl` gem has one essential feature that makes running the tests in parallel possible: It can launch multiple simulator instances at the same time. Later `xctool` will pick up the right one during the `run-tests` phase when the simulator UDID is passed:
 
-```objc
+```ruby
 task :test do
   exit_code = 0
 
@@ -167,7 +167,7 @@ In theory adding more devices does not change the executing time, because they a
 
 In order to do that, you can create a `rake` task just like:
 
-```console
+```ruby
 task :test, [:specific_test] do |t, args|
   exit_code = 0
 
