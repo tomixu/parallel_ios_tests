@@ -49,7 +49,7 @@ Executing it looks like this:
 === RUN-TESTS ===
 
   [Info] Collecting info for testables... (892 ms)
-  run-test SampleAppTests.xctest (iphonesimulator9.2, iPhone 5, application-test)
+  run-test SampleAppTests.xctest (iphonesimulator9.3, iPhone 5, application-test)
     [Info] Prepared 'iPhone 5' simulator to run tests. (227 ms)
     [Info] Installed 'com.plunien.SampleApp'. (3651 ms)
     [Info] Launched 'com.plunien.SampleApp' on 'iPhone 5'. (12089 ms)
@@ -78,8 +78,8 @@ task :test do
 
     # Destroy and create devices for given name, type and os version
     devices = [
-      SimCtl.reset_device('SampleApp iPhone 9.2', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.2')),
-      SimCtl.reset_device('SampleApp iPad 9.2',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.2')),
+      SimCtl.reset_device('SampleApp iPhone 9.3', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.3')),
+      SimCtl.reset_device('SampleApp iPad 9.3',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.3')),
     ]
 
     # Run tests on each device
@@ -111,8 +111,8 @@ task :test do
 
     # Destroy and create devices for given name, type and os version
     devices = [
-      SimCtl.reset_device('SampleApp iPhone 9.2', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.2')),
-      SimCtl.reset_device('SampleApp iPad 9.2',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.2')),
+      SimCtl.reset_device('SampleApp iPhone 9.3', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.3')),
+      SimCtl.reset_device('SampleApp iPad 9.3',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.3')),
     ]
     devices.each { |device| device.launch! }
 
@@ -155,12 +155,94 @@ Total time: 92.138191s
 
 In theory adding more devices does not change the executing time, because they are run in parallel.
 
+## Run specific tests (Target/Class/Method)
+`xctool` allows you to optionally limit what tests to run
+
+```console
+-only SomeTestTarget
+-only SomeTestTarget:SomeTestClass
+-only SomeTestTarget:SomeTestClass/testSomeMethod
+-only SomeTestTarget:SomeTestClassPrefix*,SomeTestClass/testSomeMethodPrefix*
+```
+
+In order to do that, you can create a `rake` task just like:
+
+```console
+task :test, [:specific_test] do |t, args|
+  exit_code = 0
+
+  args.with_defaults(:specific_test => :all)
+  if args[:specific_test] != :all
+    test_scope = args.extras.inject("-only #{args[:specific_test]}") do |tests, test|
+      tests + ',' + test
+    end
+  else
+    test_scope = nil
+  end
+
+  time = Benchmark.measure do
+    xctool = File.join(Dir.pwd, 'xctool', 'xctool.sh')
+    xctool = "#{xctool} -derivedDataPath '#{File.join(Dir.pwd, 'build')}' -scheme SampleApp -sdk iphonesimulator -workspace SampleApp.xcworkspace"
+
+    # Destroy and create devices for given name, type and os version
+    devices = [
+      SimCtl.reset_device('SampleApp iPhone 9.3', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.3')),
+      SimCtl.reset_device('SampleApp iPad 9.3',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.3')),
+    ]
+    devices.each { |device| device.launch! }
+
+    # Build tests once
+    sh "#{xctool} build-tests"
+
+    threads = []
+
+    # Run tests on each device in a separate thread
+    devices.each do |device|
+      threads << Thread.new do
+        test_log = File.join(Dir.pwd, 'build', "#{device.name}.log")
+        junit_xml = File.join(Dir.pwd, 'build', "#{device.name}.junit.xml")
+        if test_scope
+          system "#{xctool} run-tests #{test_scope} -destination 'id=#{device.udid}' -reporter plain:'#{test_log}' -reporter junit:'#{junit_xml}'"
+        else
+          system "#{xctool} run-tests -destination 'id=#{device.udid}' -reporter plain:'#{test_log}' -reporter junit:'#{junit_xml}'"
+        end
+        Thread.current[:result] = $?
+        device.kill!
+        device.wait! {|d| d.state == :shutdown}
+        device.delete!
+      end
+    end
+
+    # Wait for all threads to finish
+    threads.each do |thread|
+      thread.join
+      exit_code |= thread[:result].to_i
+    end
+  end
+
+  puts "Total time: #{time.real}s"
+
+  exit exit_code
+end
+```
+
+And then run the rake task:
+
+```console
+rake test[SampleAppTests:SampleAppTests/testRows]
+```
+
+in zsh:
+```console
+rake 'test[SampleAppTests:SampleAppTests/testRows]'
+```
+
 ## Integrating into Jenkins
 
 On Jenkins you might be interested in saving some artifacts. In this example the test runs on the different devices produce a separate test log and JUnit test report:
 
 ```console
-build/SampleApp iPad 9.2.junit.xml
+build/SampleApp iPad 9.3.junit.xml
 ```
 
 ```xml
@@ -174,7 +256,7 @@ build/SampleApp iPad 9.2.junit.xml
 ```
 
 ```console
-build/SampleApp iPad 9.2.log
+build/SampleApp iPad 9.3.log
 ```
 
 ```console
@@ -183,10 +265,10 @@ build/SampleApp iPad 9.2.log
 === RUN-TESTS ===
 
   [Info] Collecting info for testables... (1795 ms)
-  run-test SampleAppTests.xctest (iphonesimulator9.2, iPhone 5, application-test)
-    [Info] Prepared 'SampleApp iPad 9.2' simulator to run tests. (9 ms)
+  run-test SampleAppTests.xctest (iphonesimulator9.3, iPhone 5, application-test)
+    [Info] Prepared 'SampleApp iPad 9.3' simulator to run tests. (9 ms)
     [Info] Installed 'com.plunien.SampleApp'. (1311 ms)
-    [Info] Launched 'com.plunien.SampleApp' on 'SampleApp iPad 9.2'. (7402 ms)
+    [Info] Launched 'com.plunien.SampleApp' on 'SampleApp iPad 9.3'. (7402 ms)
     ~ -[SampleAppTests testDetailView] (56856 ms)
     ~ -[SampleAppTests testRows] (15117 ms)
     2 passed, 0 failed, 0 errored, 2 total (71974 ms)
@@ -196,7 +278,7 @@ build/SampleApp iPad 9.2.log
 ```
 
 ```console
-build/SampleApp iPhone 9.2.junit.xml
+build/SampleApp iPhone 9.3.junit.xml
 ```
 
 ```xml
@@ -210,7 +292,7 @@ build/SampleApp iPhone 9.2.junit.xml
 ```
 
 ```console
-build/SampleApp iPhone 9.2.log
+build/SampleApp iPhone 9.3.log
 ```
 
 ```console
@@ -219,10 +301,10 @@ build/SampleApp iPhone 9.2.log
 === RUN-TESTS ===
 
   [Info] Collecting info for testables... (1795 ms)
-  run-test SampleAppTests.xctest (iphonesimulator9.2, iPhone 5, application-test)
-    [Info] Prepared 'SampleApp iPhone 9.2' simulator to run tests. (9 ms)
+  run-test SampleAppTests.xctest (iphonesimulator9.3, iPhone 5, application-test)
+    [Info] Prepared 'SampleApp iPhone 9.3' simulator to run tests. (9 ms)
     [Info] Installed 'com.plunien.SampleApp'. (1312 ms)
-    [Info] Launched 'com.plunien.SampleApp' on 'SampleApp iPhone 9.2'. (7356 ms)
+    [Info] Launched 'com.plunien.SampleApp' on 'SampleApp iPhone 9.3'. (7356 ms)
     ~ -[SampleAppTests testDetailView] (42859 ms)
     ~ -[SampleAppTests testRows] (20259 ms)
     2 passed, 0 failed, 0 errored, 2 total (63119 ms)
