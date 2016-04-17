@@ -147,13 +147,13 @@ task :test do
 end
 ```
 
-This reduced the total executing time again:
+This reduced the total execution time again:
 
 ```console
 Total time: 92.138191s
 ```
 
-In theory adding more devices does not change the executing time, because they are run in parallel.
+In theory adding more devices does not change the execution time, because they are run in parallel.
 
 ## Run specific tests (Target/Class/Method)
 `xctool` allows you to optionally limit what tests to run
