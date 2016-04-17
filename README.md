@@ -78,8 +78,8 @@ task :test do
 
     # Destroy and create devices for given name, type and os version
     devices = [
-      SimCtl.reset_device('SampleApp iPhone 9.3', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.3')),
-      SimCtl.reset_device('SampleApp iPad 9.3',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.3')),
+      SimCtl.reset_device('SampleApp iPhone', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl::Runtime.latest(:ios)),
+      SimCtl.reset_device('SampleApp iPad',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl::Runtime.latest(:ios)),
     ]
 
     # Run tests on each device
@@ -111,8 +111,8 @@ task :test do
 
     # Destroy and create devices for given name, type and os version
     devices = [
-      SimCtl.reset_device('SampleApp iPhone 9.3', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.3')),
-      SimCtl.reset_device('SampleApp iPad 9.3',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.3')),
+      SimCtl.reset_device('SampleApp iPhone', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl::Runtime.latest(:ios)),
+      SimCtl.reset_device('SampleApp iPad',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl::Runtime.latest(:ios)),
     ]
     devices.each { |device| device.launch! }
 
@@ -186,8 +186,8 @@ task :test, [:specific_test] do |t, args|
 
     # Destroy and create devices for given name, type and os version
     devices = [
-      SimCtl.reset_device('SampleApp iPhone 9.3', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl.runtime(name: 'iOS 9.3')),
-      SimCtl.reset_device('SampleApp iPad 9.3',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl.runtime(name: 'iOS 9.3')),
+      SimCtl.reset_device('SampleApp iPhone', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl::Runtime.latest(:ios)),
+      SimCtl.reset_device('SampleApp iPad',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl::Runtime.latest(:ios)),
     ]
     devices.each { |device| device.launch! }
 
@@ -242,7 +242,7 @@ rake 'test[SampleAppTests:SampleAppTests/testRows]'
 On Jenkins you might be interested in saving some artifacts. In this example the test runs on the different devices produce a separate test log and JUnit test report:
 
 ```console
-build/SampleApp iPad 9.3.junit.xml
+build/SampleApp iPad.junit.xml
 ```
 
 ```xml
@@ -256,7 +256,7 @@ build/SampleApp iPad 9.3.junit.xml
 ```
 
 ```console
-build/SampleApp iPad 9.3.log
+build/SampleApp iPad.log
 ```
 
 ```console
@@ -266,9 +266,9 @@ build/SampleApp iPad 9.3.log
 
   [Info] Collecting info for testables... (1795 ms)
   run-test SampleAppTests.xctest (iphonesimulator9.3, iPhone 5, application-test)
-    [Info] Prepared 'SampleApp iPad 9.3' simulator to run tests. (9 ms)
+    [Info] Prepared 'SampleApp iPad' simulator to run tests. (9 ms)
     [Info] Installed 'com.plunien.SampleApp'. (1311 ms)
-    [Info] Launched 'com.plunien.SampleApp' on 'SampleApp iPad 9.3'. (7402 ms)
+    [Info] Launched 'com.plunien.SampleApp' on 'SampleApp iPad'. (7402 ms)
     ~ -[SampleAppTests testDetailView] (56856 ms)
     ~ -[SampleAppTests testRows] (15117 ms)
     2 passed, 0 failed, 0 errored, 2 total (71974 ms)
@@ -278,7 +278,7 @@ build/SampleApp iPad 9.3.log
 ```
 
 ```console
-build/SampleApp iPhone 9.3.junit.xml
+build/SampleApp iPhone.junit.xml
 ```
 
 ```xml
@@ -292,7 +292,7 @@ build/SampleApp iPhone 9.3.junit.xml
 ```
 
 ```console
-build/SampleApp iPhone 9.3.log
+build/SampleApp iPhone.log
 ```
 
 ```console
@@ -302,9 +302,9 @@ build/SampleApp iPhone 9.3.log
 
   [Info] Collecting info for testables... (1795 ms)
   run-test SampleAppTests.xctest (iphonesimulator9.3, iPhone 5, application-test)
-    [Info] Prepared 'SampleApp iPhone 9.3' simulator to run tests. (9 ms)
+    [Info] Prepared 'SampleApp iPhone' simulator to run tests. (9 ms)
     [Info] Installed 'com.plunien.SampleApp'. (1312 ms)
-    [Info] Launched 'com.plunien.SampleApp' on 'SampleApp iPhone 9.3'. (7356 ms)
+    [Info] Launched 'com.plunien.SampleApp' on 'SampleApp iPhone'. (7356 ms)
     ~ -[SampleAppTests testDetailView] (42859 ms)
     ~ -[SampleAppTests testRows] (20259 ms)
     2 passed, 0 failed, 0 errored, 2 total (63119 ms)
