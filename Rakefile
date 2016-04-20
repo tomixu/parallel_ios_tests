@@ -7,6 +7,7 @@ $stdout.sync = true
 $stderr.sync = true
 
 task :default => 'test'
+desc 'Execute tests in multiple simulators'
 task :test, [:specific_test] do |t, args|
   exit_code = 0
 
@@ -64,6 +65,7 @@ task :test, [:specific_test] do |t, args|
   exit exit_code
 end
 
+desc 'Launch app in multiple simulators'
 task :launch do
   devices = [
     SimCtl.reset_device('SampleApp iPhone', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl::Runtime.latest(:ios)),
