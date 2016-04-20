@@ -63,3 +63,21 @@ task :test, [:specific_test] do |t, args|
 
   exit exit_code
 end
+
+task :launch do
+  devices = [
+    SimCtl.reset_device('SampleApp iPhone', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl::Runtime.latest(:ios)),
+    SimCtl.reset_device('SampleApp iPad',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl::Runtime.latest(:ios)),
+  ]
+  devices.each { |device| device.launch! }
+
+  build_path = File.join(Dir.pwd, 'build')
+  xctool = File.join(Dir.pwd, 'xctool', 'xctool.sh')
+  xctool = "#{xctool} -derivedDataPath '#{build_path}' -scheme SampleApp -sdk iphonesimulator -workspace SampleApp.xcworkspace"
+  sh "#{xctool} build"
+
+  devices.each do |device|
+    device.install!(File.join(build_path, 'Build/Products/Debug-iphonesimulator/SampleApp.app'))
+    device.launch_app!('com.plunien.SampleApp')
+  end
+end

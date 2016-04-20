@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/plu/simctl.git
-  revision: 4e058d7a49f382a0f0658c7443a7bb4d0a7c0c5d
+  revision: 4dfd90b73f751448232bd92b445fe955a705f8ad
   specs:
     simctl (1.5.0)
       CFPropertyList
