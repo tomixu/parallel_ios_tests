@@ -1,22 +1,17 @@
-GIT
-  remote: git://github.com/plu/simctl.git
-  revision: 4dfd90b73f751448232bd92b445fe955a705f8ad
-  specs:
-    simctl (1.5.0)
-      CFPropertyList
-
 GEM
   remote: https://rubygems.org/
   specs:
     CFPropertyList (2.3.2)
     rake (11.1.2)
+    simctl (1.5.0)
+      CFPropertyList
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   rake
-  simctl!
+  simctl
 
 BUNDLED WITH
    1.11.2
