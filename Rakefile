@@ -46,9 +46,9 @@ task :test, [:specific_test] do |t, args|
         test_log = File.join(Dir.pwd, 'build', "#{device.name}.log")
         junit_xml = File.join(Dir.pwd, 'build', "#{device.name}.junit.xml")
         if test_scope
-          system "#{xctool} run-tests #{test_scope} -destination 'id=#{device.udid}' -reporter plain:'#{test_log}' -reporter junit:'#{junit_xml}'"
+          system "#{xctool} run-tests #{test_scope} -destination 'id=#{device.udid}' -reporter pretty -reporter plain:'#{test_log}' -reporter junit:'#{junit_xml}'"
         else
-          system "#{xctool} run-tests -destination 'id=#{device.udid}' -reporter plain:'#{test_log}' -reporter junit:'#{junit_xml}'"
+          system "#{xctool} run-tests -destination 'id=#{device.udid}' -reporter pretty -reporter plain:'#{test_log}' -reporter junit:'#{junit_xml}'"
         end
         Thread.current[:result] = $?
         device.kill!
