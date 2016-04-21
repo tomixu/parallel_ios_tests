@@ -1,12 +1,12 @@
 PODS:
-  - KIF (3.3.2):
-    - KIF/Core (= 3.3.2)
-  - KIF/Core (3.3.2)
+  - KIF (3.4.2):
+    - KIF/Core (= 3.4.2)
+  - KIF/Core (3.4.2)
 
 DEPENDENCIES:
   - KIF
 
 SPEC CHECKSUMS:
-  KIF: 9de83fa627adaf65d28ace31e40f19d830bc255c
+  KIF: b518c9831453abea5afdbbde3908ec47832d6d56
 
 COCOAPODS: 0.39.0
