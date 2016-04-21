@@ -14,16 +14,9 @@
 
 @implementation SampleAppTests
 
-- (void)testRows
-{
-    for (NSInteger i = 0; i < 50; i++) {
-        [tester waitForViewWithAccessibilityLabel:[NSString stringWithFormat:@"Row %zd", i]];
-    }
-}
-
 - (void)testDetailView
 {
-    for (NSInteger i = 0; i < 25; i++) {
+    for (NSInteger i = 0; i < 8; i++) {
         [tester tapViewWithAccessibilityLabel:[NSString stringWithFormat:@"Row %zd", i]];
         [tester waitForViewWithAccessibilityLabel:[NSString stringWithFormat:@"Detail %zd", i]];
         [tester tapViewWithAccessibilityLabel:@"SampleApp"];     // Back button
