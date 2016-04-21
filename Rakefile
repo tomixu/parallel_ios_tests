@@ -29,7 +29,11 @@ task :test, [:specific_test] do |t, args|
       SimCtl.reset_device('SampleApp iPhone', SimCtl.devicetype(name: 'iPhone 5'),    SimCtl::Runtime.latest(:ios)),
       SimCtl.reset_device('SampleApp iPad',   SimCtl.devicetype(name: 'iPad Retina'), SimCtl::Runtime.latest(:ios)),
     ]
-    devices.each { |device| device.launch! }
+    devices.each do |device|
+      # This is necessary because Travis seems to be slow...
+      device.wait!{|d| File.exists?(d.path.device_plist)}
+      device.launch!
+    end
 
     # Build tests once
     sh "#{xctool} build-tests"
