@@ -64,6 +64,13 @@ task :test, [:specific_test] do |t, args|
       end
     end
 
+    threads << Thread.new do
+      while true
+        system 'sample $(ps auxww | grep Release/bin/[x]ctool | tail -n1 | awk \'{print $2}\') 1'
+        sleep 5
+      end
+    end
+
     # Wait for all threads to finish
     threads.each do |thread|
       thread.join
