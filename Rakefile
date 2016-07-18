@@ -10,7 +10,7 @@ if ENV['TRAVIS']
   SimCtl.default_timeout = 300
 end
 
-ENV['XCTOOL_RETRY_TIMEOUT'] = '30'
+ENV['XCTOOL_RETRY_TIMEOUT'] = '90'
 ENV['XCTOOL_RETRY_COUNT'] = '10'
 
 task :default => 'test'
