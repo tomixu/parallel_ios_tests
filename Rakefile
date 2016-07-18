@@ -6,6 +6,10 @@ require 'benchmark'
 $stdout.sync = true
 $stderr.sync = true
 
+if ENV['TRAVIS']
+  SimCtl.default_timeout = 300
+end
+
 task :default => 'test'
 desc 'Execute tests in multiple simulators'
 task :test, [:specific_test] do |t, args|
