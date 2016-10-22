@@ -2,9 +2,6 @@ language: objective-c
 osx_image: xcode8
 before_script:
   - export LANG=en_US.UTF-8
-before_install:
-  - brew tap facebook/fb
-  - brew install carthage python3 fbsimctl
 install: bundle
 script:
   - bundle exec rake
