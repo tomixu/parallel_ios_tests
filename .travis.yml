@@ -2,6 +2,8 @@ language: objective-c
 osx_image: xcode8
 before_script:
   - export LANG=en_US.UTF-8
+before_install:
+  - rvm use --install 2.2.0
 install: bundle
 script:
   - bundle exec rake
