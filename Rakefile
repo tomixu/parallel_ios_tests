@@ -1,14 +1,9 @@
-require 'rubygems'
-require 'bundler'
-Bundler.require(:default)
-require 'benchmark'
-
 $stdout.sync = true
 $stderr.sync = true
 
 task :default => 'test'
 desc 'Execute tests in multiple simulators'
-task :test, [:specific_test] do |t, args|
+task :test do
   sh [
     'set -o pipefail;',
     'xcodebuild',
