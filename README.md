@@ -1,15 +1,16 @@
-# Running iOS tests on multiple simulators in parallel
+# Running iOS tests on multiple Simulators in parallel
 
 [![Build Status](https://travis-ci.org/plu/parallel_ios_tests.svg?branch=master)](https://travis-ci.org/plu/parallel_ios_tests)
 
-The old `xctool` based solution is deprecated. For a better solution, please have a look at these tools:
+The old [xctool](https://github.com/facebook/xctool) based solution is deprecated. This example project now uses [pxctest](https://github.com/plu/pxctest) to execute tests in parallel on multiple Simulators.
 
-* [pxctest](https://github.com/plu/pxctest)
-* [fbsimctl](https://github.com/facebook/FBSimulatorControl/tree/master/fbsimctl)
-* [fbxctest](https://github.com/facebook/FBSimulatorControl/tree/master/fbxctest)
+This might also be interesting:
 
-This example project here has been updated to use `pxctest`, to demonstrate how to run tests on multiple
-iOS Simulators in parallel.
+* [FBSimulatorControl](https://github.com/facebook/FBSimulatorControl) - a Mac OS X library for managing and manipulating iOS Simulators
+* [fbsimctl](https://github.com/facebook/FBSimulatorControl/tree/master/fbsimctl) - command line interface to the FBSimulatorControl Framework
+* [fbxctest](https://github.com/facebook/FBSimulatorControl/tree/master/fbxctest) - test runner for running iOS testing bundles for the iOS Simulator Platform
+
+## Rakefile
 
 ```ruby
 $stdout.sync = true
