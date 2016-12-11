@@ -20,8 +20,8 @@ task :test do
   sh [
     'pxctest',
     'run-tests',
-    '--destination "name=iPhone 5,os=iOS 9.3"',
-    '--destination "name=iPad Retina,os=iOS 9.3"',
+    '--destination "name=iPhone 5,os=iOS 10.1"',
+    '--destination "name=iPad Retina,os=iOS 10.1"',
     '--testrun build/Products/SampleApp_iphonesimulator10.1-i386.xctestrun',
   ].join(' ')
 end
