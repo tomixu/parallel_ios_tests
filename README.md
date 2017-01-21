@@ -19,7 +19,7 @@ There are other tools and libraries that might also be interesting:
 
 ## Example
 
-This repository contains an example project (using KIF for UI Testing) which uses [pxctest](https://github.com/plu/pxctest) to run the tests on an iPhone and iPad Simulator at the same time.
+This repository contains an example project (using [KIF](https://github.com/kif-framework/KIF) for UI Testing) which uses [pxctest](https://github.com/plu/pxctest) to run the tests on an iPhone and iPad Simulator at the same time.
 
 ### Rakefile
 
